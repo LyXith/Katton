@@ -131,10 +131,13 @@ object ServerDatapackManager {
         recipes.forEach { (id, json) ->
             val key = ResourceKey.create(Registries.RECIPE, id)
             val recipe = Recipe.CODEC.parse(serializationContext, json).getOrThrow(::JsonParseException)
-            merged[key] = RecipeHolder(key, recipe)
+            merged[key] = RecipeHolder(key, recipe.value())
         }
 
-        ReflectUtil.set(recipeManager, "recipes", RecipeMap.create(merged.values))
+        val holders: List<RecipeHolder<*>> = merged.map { (key, recipe) ->
+            RecipeHolder(key, recipe)
+        }
+        ReflectUtil.set(recipeManager, "recipes", RecipeMap.create(holders))
         recipeManager.finalizeRecipeLoading(server.worldData.enabledFeatures())
         LOGGER.info("Applied {} scripted recipes and removed {} recipes", recipes.size, removedRecipes.size)
         return true
