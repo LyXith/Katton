@@ -27,6 +27,7 @@ internal object SceneRenderCompat {
             val pipeline =
                 pipelines.getOrPut(material.throughWalls to material.blend) {
                     val base = RenderPipelines.BEACON_BEAM_TRANSLUCENT
+                    val baseShaders = base.shaders
                     val builder =
                         RenderPipeline.builder()
                             .withLocation(
@@ -35,8 +36,8 @@ internal object SceneRenderCompat {
                                     "pipeline/scene_${material.throughWalls}_${material.blend.name.lowercase()}",
                                 )
                             )
-                            .withVertexShader(base.vertexShader)
-                            .withFragmentShader(base.fragmentShader)
+                            .withVertexShader(baseShaders[ShaderType.VERTEX]!!)
+                            .withFragmentShader(baseShaders[ShaderType.FRAGMENT]!!)
                             .withVertexBinding(0, requireNotNull(base.getVertexFormatBinding(0)))
                             .withPrimitiveTopology(PrimitiveTopology.TRIANGLES)
                             .withCull(false)
