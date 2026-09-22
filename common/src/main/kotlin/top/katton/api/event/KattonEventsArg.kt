@@ -17,7 +17,7 @@ import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.entity.*
 import net.minecraft.world.entity.animal.Animal
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.entity.monster.EnderMan
+import net.minecraft.world.entity.monster.Enderman
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.context.UseOnContext
@@ -986,7 +986,7 @@ data class EntityTeleportArg(
  * @property player The Player the enderman is targeting
  */
 data class EndermanAngerArg(
-    val enderman: EnderMan,
+    val enderman: Enderman,
     val player: Player
 ): CancellableEventArg()
 
