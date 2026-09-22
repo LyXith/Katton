@@ -52,14 +52,14 @@ internal fun drawLine3DCompat(
 
         staged.upload()
         val executeInfo = staged.getExecuteInfo(draw) ?: return false
-        val framebuffer = Minecraft.getInstance().gameRenderer.mainRenderTarget
+        val framebuffer = Minecraft.getInstance().gameRenderer.mainRenderTarget()
         val colorView = framebuffer.colorTextureView
         val depthView = framebuffer.depthTextureView
 
         RenderSystem.getDevice().createCommandEncoder().createRenderPass(
             { "Katton line renderer pass" },   // 调试名称 Supplier<String>
             colorView,                          // GpuTextureView
-            Optional.empty(),                // clearColor (Optional)
+            OptionalInt.empty(),                // clearColor (Optional)
             depthView,                          // GpuTextureView
             OptionalDouble.empty()              // clearDepth (OptionalDouble)
         ).use { renderPass ->
