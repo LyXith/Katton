@@ -22,6 +22,7 @@ import net.minecraft.tags.TagKey
 import net.minecraft.util.Mth
 import net.minecraft.util.valueproviders.IntProvider
 import net.minecraft.world.clock.ClockTimeMarker
+import net.minecraft.world.clock.ServerClockManager
 import net.minecraft.world.clock.WorldClock
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.biome.Biome
