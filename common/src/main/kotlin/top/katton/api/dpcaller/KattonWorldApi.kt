@@ -447,7 +447,7 @@ fun locateBiome(biomeKey: TagKey<Biome>, level: ServerLevel, startPos: BlockPos 
  * %zh 放置位置。
  */
 fun placeFeature(feature: Identifier, pos: BlockPos){
-    val f = requireServer().registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).get(feature)
+    val f = requireServer().registryAccess().lookupOrThrow(Registries.FEATURE).get(feature)
     if(f.isEmpty){
         LOGGER.warn("Feature $feature not found")
         return
