@@ -3,6 +3,8 @@ package top.katton.compat
 import com.mojang.renderpearl.api.pipeline.*
 import com.mojang.blaze3d.systems.RenderSystem
 import java.util.Optional
+import java.util.OptionalDouble
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.client.renderer.StagedVertexBuffer
 import net.minecraft.client.renderer.rendertype.RenderSetup
@@ -10,6 +12,7 @@ import net.minecraft.client.renderer.rendertype.RenderType
 import net.minecraft.resources.Identifier
 import net.minecraft.world.phys.Vec3
 import org.joml.Matrix4f
+import org.joml.Vector4fc
 import top.katton.api.scene.*
 import top.katton.scene.SceneMesh
 
@@ -88,7 +91,20 @@ internal object SceneRenderCompat {
             }
             staged.upload()
             draws.forEach { (type, draw) ->
-                staged.getExecuteInfo(draw)?.let { type.prepare().drawFromBuffer(it) }
+                staged.getExecuteInfo(draw)?.let {
+                    val framebuffer = Minecraft.getInstance().gameRenderer.mainRenderTarget()
+                    val colorView = framebuffer.colorTextureView ?: return false
+                    val depthView = framebuffer.depthTextureView ?: return false
+                    RenderSystem.getDevice().createCommandEncoder().createRenderPass(
+                        { "Katton line renderer pass" },
+                        colorView,                          // GpuTextureView
+                        Optional.empty<Vector4fc>(),                // clearColor (Optional)
+                        depthView,                          // GpuTextureView
+                        OptionalDouble.empty()              // clearDepth (OptionalDouble)
+                    ).use { renderPass ->
+                        type.prepare().drawFromBuffer(it, renderPass)
+                    }
+                }
             }
         } finally {
             matrix.popMatrix()
