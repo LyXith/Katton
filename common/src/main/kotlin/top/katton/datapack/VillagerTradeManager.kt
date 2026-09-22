@@ -167,7 +167,7 @@ internal object VillagerTradeManager {
         val byTradeSet = pendingTrades.groupBy { it.tradeSet }
         for (key in byTradeSet.keys) {
             val existing = tradeSetRegistry.get(key).orElse(null)?.value() ?: continue
-            tradeSetSnapshots.putIfAbsent(key, existing.trades)
+            tradeSetSnapshots.putIfAbsent(key, existing.trades())
             tradeSetOriginals.putIfAbsent(key, existing)
         }
 
@@ -195,14 +195,14 @@ internal object VillagerTradeManager {
             withUnfrozenRegistry(tradeSetRegistry) {
                 newHoldersByTradeSet.forEach { (key, addedHolders) ->
                     val baseline = tradeSetOriginals[key] ?: return@forEach
-                    val originalHolders = tradeSetSnapshots[key] ?: baseline.trades
+                    val originalHolders = tradeSetSnapshots[key] ?: baseline.trades()
                     val combined = HolderSet.direct(buildList {
                         originalHolders.forEach { add(it) }
                         addAll(addedHolders)
                     })
                     val replacement = TradeSet(
                         combined,
-                        baseline.calculateAmount(),
+                        baseline.amount(),
                         baseline.allowDuplicates(),
                         baseline.randomSequence()
                     )
@@ -227,23 +227,36 @@ internal object VillagerTradeManager {
         val givesItem = resolveItem(pending.gives.id) ?: run {
             LOGGER.warn("villager trade: gives item {} is not registered", pending.gives.id); return null
         }
-        val additionalWants = pending.additionalWants?.let { extra ->
-            val item = resolveItem(extra.id) ?: run {
-                LOGGER.warn("villager trade: additional wants item {} is not registered", extra.id); return null
-            }
-            Optional.of(TradeCost(item, extra.count))
-        } ?: Optional.empty()
 
-        return VillagerTrade(
-            TradeCost(wantsItem, pending.wants.count),
-            additionalWants,
-            ItemStackTemplate(givesItem, pending.gives.count),
-            pending.maxUses,
-            pending.xp,
-            pending.priceMultiplier,
-            Optional.empty<LootItemCondition>(),
-            emptyList<LootItemFunction>(),
-        )
+        // TradeCost 现在有 (ItemLike, int) 的便捷构造函数，直接传 Int 即可
+        val wantsCost = TradeCost(wantsItem, pending.wants.count)
+
+        val builder = if (pending.additionalWants != null) {
+            val extraItem = resolveItem(pending.additionalWants.id) ?: run {
+                LOGGER.warn("villager trade: additional wants item {} is not registered", pending.additionalWants.id); return null
+            }
+            // 使用带 additionalWants 的 builder 重载
+            VillagerTrade.builder(
+                wantsCost,
+                TradeCost(extraItem, pending.additionalWants.count),
+                ItemStackTemplate(givesItem, pending.gives.count),
+                pending.maxUses,
+                pending.xp,
+                pending.priceMultiplier,
+            )
+        } else {
+            // 使用不带 additionalWants 的 builder 重载
+            VillagerTrade.builder(
+                wantsCost,
+                ItemStackTemplate(givesItem, pending.gives.count),
+                pending.maxUses,
+                pending.xp,
+                pending.priceMultiplier,
+            )
+        }
+    
+        // 构建：merchantPredicate、givenItemModifier、doubleTradePriceEnchantments 均默认为空
+        return builder.build()
     }
 
     private fun resolveItem(id: Identifier): Item? {
@@ -276,9 +289,4 @@ internal object VillagerTradeManager {
      * Read-only accessor for the original number provider of a baseline
      * `TradeSet` so we can preserve `amount` when rebuilding the set.
      */
-    private fun TradeSet.calculateAmount(): net.minecraft.world.level.storage.loot.providers.number.NumberProvider {
-        val raw = ReflectUtil.get(this, "amount").getOrNull() as?
-            net.minecraft.world.level.storage.loot.providers.number.NumberProvider
-        return raw ?: net.minecraft.world.level.storage.loot.providers.number.ConstantValue.exactly(2.0f)
-    }
 }
