@@ -51,6 +51,7 @@ internal fun drawLine3DCompat(
             .setLineWidth(width)
 
         staged.upload()
+        val executeInfo = staged.getExecuteInfo(draw) ?: return false
         val framebuffer = Minecraft.getInstance().gameRenderer.mainRenderTarget
         val colorView = framebuffer.colorTextureView
         val depthView = framebuffer.depthTextureView
