@@ -127,7 +127,7 @@ fun modifyRecipe(recipeId: Identifier, configure: RecipeModificationConfig.() ->
         ?: throw IllegalArgumentException("Recipe not found: $recipeId")
 
     val serializationContext = RegistryOps.create(JsonOps.INSTANCE, server.registryAccess())
-    val json = Recipe.CODEC.encodeStart(serializationContext, holder as Holder<Recipe<*>>)
+    val json = Recipe.DIRECT_CODEC.encodeStart(serializationContext, holder.value())
         .getOrThrow { msg -> IllegalStateException("Failed to serialize recipe $recipeId: $msg") }
         as? JsonObject ?: error("Failed to serialize recipe $recipeId to JsonObject")
 
@@ -211,7 +211,7 @@ fun getRecipe(recipeId: Identifier): JsonObject? {
     val holder = recipeManager.recipes.find { it.id().identifier() == recipeId } ?: return null
 
     val serializationContext = RegistryOps.create(JsonOps.INSTANCE, server.registryAccess())
-    return Recipe.CODEC.encodeStart(serializationContext, holder as Holder<Recipe<*>>)
+    return Recipe.DIRECT_CODEC.encodeStart(serializationContext, holder.value())
         .result().orElse(null) as? JsonObject
 }
 
