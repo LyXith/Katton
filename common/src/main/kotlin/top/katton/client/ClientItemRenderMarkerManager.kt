@@ -244,9 +244,9 @@ object ClientItemRenderMarkerManager {
             poseStack.pushPose()
             try {
                 poseStack.translate(renderOffset.x, renderOffset.y, renderOffset.z)
-                poseStack.mulPose(Axis.YP.rotationDegrees(renderYaw))
-                poseStack.mulPose(Axis.XP.rotationDegrees(renderPitch))
-                poseStack.mulPose(Axis.ZP.rotationDegrees(renderRoll))
+                poseStack.mulPose(Matrix4f().set(Axis.YP.rotationDegrees(renderYaw)))
+                poseStack.mulPose(Matrix4f().set(Axis.XP.rotationDegrees(renderPitch)))
+                poseStack.mulPose(Matrix4f().set(Axis.ZP.rotationDegrees(renderRoll)))
                 poseStack.scale(
                     renderScaleX.coerceAtLeast(0.001f),
                     renderScaleY.coerceAtLeast(0.001f),
