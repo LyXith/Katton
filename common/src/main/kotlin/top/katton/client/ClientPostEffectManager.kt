@@ -153,20 +153,18 @@ object ClientPostEffectManager {
     }
 
     fun clearPostEffect(): Boolean {
-        mc.execute {
-            mc.gameRenderer.clearPostEffect()
-        }
-        return true
+        val player = mc.player ?: return false
+        return player.clearPostEffects()
     }
 
     fun togglePostEffect(): Boolean {
         mc.execute {
-            mc.gameRenderer.togglePostEffect()
+            mc.gameRenderer.toggleSpectatorPostEffect()
         }
         return true
     }
 
-    fun currentPostEffect(): Identifier? = mc.gameRenderer.currentPostEffect()
+    fun currentPostEffect(): Identifier? = mc.gameRenderer.spectatedEntityPostEffect()
 
     fun isPostEffectActive(): Boolean {
         return ReflectUtil.getT<Boolean>(mc.gameRenderer, "effectActive")
