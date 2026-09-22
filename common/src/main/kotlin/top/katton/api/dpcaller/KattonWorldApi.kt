@@ -815,7 +815,8 @@ fun queryGameTime(level: ServerLevel): Int {
 
 
 fun queryTime(clock: Holder<WorldClock>): Int {
-    return wrapTime(requireServer().clockManager().getTotalTicks(clock))
+    val instance = requireServer().clockManager().getInstance(clock)
+    return wrapTime(instance.totalTicks())
 }
 
 
