@@ -851,7 +851,7 @@ fun addTime(clock: Holder<WorldClock>, ticks: Int) {
 
 
 fun setTimeToTimeMarker(clock: Holder<WorldClock>, timeMarker: ResourceKey<ClockTimeMarker>): Boolean {
-    return requireServer().clockManager().moveToTimeMarker(clock, timeMarker)
+    return requireServer().clockManager().moveToTimeMarker(clock, timeMarker) == ServerClockManager.MoveResult.MOVED
 }
 
 
