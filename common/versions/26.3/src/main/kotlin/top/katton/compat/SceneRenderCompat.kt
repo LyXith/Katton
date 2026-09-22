@@ -1,7 +1,6 @@
 package top.katton.compat
 
-import com.mojang.blaze3d.PrimitiveTopology
-import com.mojang.blaze3d.pipeline.*
+import com.mojang.renderpearl.api.pipeline.*
 import com.mojang.blaze3d.systems.RenderSystem
 import java.util.Optional
 import net.minecraft.client.renderer.RenderPipelines
