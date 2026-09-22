@@ -154,7 +154,11 @@ object ClientPostEffectManager {
 
     fun clearPostEffect(): Boolean {
         val player = mc.player ?: return false
-        return player.setActivePostEffects(emptyList())
+        val hadEffects = player.activePostEffects.isNotEmpty()
+        if (hadEffects) {
+            player.setActivePostEffects(emptyList())
+        }
+        return hadEffects
     }
 
     fun togglePostEffect(): Boolean {
