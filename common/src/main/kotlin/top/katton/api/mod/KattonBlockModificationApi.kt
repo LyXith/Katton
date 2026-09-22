@@ -247,7 +247,7 @@ private fun applyBlockModifications(block: Block, config: BlockModificationConfi
     }
 
     config.isViewBlocking?.let { isViewBlocking ->
-        properties.isViewBlocking(stateArgumentPredicate(isViewBlocking))
+        properties.isViewBlocking { _, _, _ -> isViewBlocking }
     }
 
     config.soundType?.let { soundType ->
@@ -295,13 +295,6 @@ private fun setPropertyField(properties: BlockBehaviour.Properties, fieldName: S
 
 private fun statePredicate(value: Boolean): BlockBehaviour.StatePredicate {
     return BlockBehaviour.StatePredicate { _, _, _ -> value }
-}
-
-private fun stateArgumentPredicate(
-    predicate: (BlockState, BlockGetter, BlockPos) -> Boolean
-): BlockBehaviour.StateArgumentPredicate<AABB> =
-    BlockBehaviour.StateArgumentPredicate { state, level, pos, _ ->
-        predicate(state, level, pos)
 }
 
 /**
