@@ -34,7 +34,20 @@ jobs:
 
       - name: Build, test, and verify deployment jars
         run: >
-          ./gradlew :common:26.3:compileKotlin
+          ./gradlew build
+          verifyReleaseArtifacts
+          verifyReleaseAgentArtifacts
+          verifyLocalMavenPublications
+          :common:26.1.2:verifyKattonStartupAgent
+          :common:26.2:verifyKattonStartupAgent
+          :common:26.3:verifyKattonStartupAgent
+          :common:26.1.2:verifyKattonStartupInjection
+          :common:26.2:verifyKattonStartupInjection
+          :common:26.3:verifyKattonStartupInjection
+          :common:26.1.2:verifyKattonDynamicAttachInjection
+          :common:26.2:verifyKattonDynamicAttachInjection
+          :common:26.3:verifyKattonDynamicAttachInjection
+          --stacktrace
 
       
       - name: Upload build artifacts
