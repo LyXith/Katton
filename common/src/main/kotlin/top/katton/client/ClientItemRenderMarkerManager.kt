@@ -30,6 +30,7 @@ import java.util.IdentityHashMap
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.floor
+import org.joml.Matrix4f
 
 /*? if mc_26_2 {*/
 private fun getLightCoords(level: BlockAndLightGetter, pos: BlockPos): Int {
