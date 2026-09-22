@@ -51,20 +51,7 @@ internal fun drawLine3DCompat(
 
         staged.upload()
         val executeInfo = staged.getExecuteInfo(draw) ?: return false
-        val mainTarget = Minecraft.getInstance().mainRenderTarget
-        val renderPass = RenderSystem.getDevice()
-            .createCommandEncoder()
-            .createRenderPass(
-            { "Katton line renderer" },
-            mainTarget.colorTextureView,
-            OptionalInt.empty(),
-            mainTarget.depthTextureView,
-            OptionalDouble.empty())
-        try {
-            renderType.prepare().drawFromBuffer(executeInfo, renderPass)
-        } finally {
-            renderPass.close()
-        }
+        renderType.prepare().drawFromBuffer(executeInfo)
         staged.endDraw()
         staged.endFrame()
         return true
