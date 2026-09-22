@@ -3,10 +3,7 @@ package top.katton.compat
 import net.minecraft.client.renderer.StagedVertexBuffer
 import net.minecraft.client.renderer.rendertype.RenderType
 import net.minecraft.client.renderer.rendertype.RenderTypes
-import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.Minecraft
-import java.util.OptionalDouble
-import java.util.OptionalInt
+
 import net.minecraft.world.phys.Vec3
 
 internal fun drawLine3DCompat(
