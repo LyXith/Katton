@@ -134,10 +134,7 @@ object ServerDatapackManager {
             merged[key] = RecipeHolder(key, recipe.value())
         }
 
-        val holders: List<RecipeHolder<*>> = merged.map { (key, recipe) ->
-            RecipeHolder(key, recipe)
-        }
-        ReflectUtil.set(recipeManager, "recipes", RecipeMap.create(holders))
+        val holders: List<RecipeHolder<*>> = merged.values.toList()
         recipeManager.finalizeRecipeLoading(server.worldData.enabledFeatures())
         LOGGER.info("Applied {} scripted recipes and removed {} recipes", recipes.size, removedRecipes.size)
         return true
