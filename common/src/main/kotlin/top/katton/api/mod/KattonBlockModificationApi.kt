@@ -8,6 +8,9 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.core.BlockPos
+import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.level.material.MapColor
 import org.jetbrains.annotations.ApiStatus
 import top.katton.registry.id
@@ -240,7 +243,7 @@ private fun applyBlockModifications(block: Block, config: BlockModificationConfi
     }
 
     config.isSuffocating?.let { isSuffocating ->
-        properties.isSuffocating(statePredicate(isSuffocating))
+        properties.isSuffocating(StateArgumentPredicate(isSuffocating))
     }
 
     config.isViewBlocking?.let { isViewBlocking ->
