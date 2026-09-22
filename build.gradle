@@ -286,7 +286,7 @@ tasks.register('buildKattonJars') {
     dependsOn ":fabric:${activeTarget}:jar", ":neoforge:${activeTarget}:jar", ":paper:${activeTarget}:shadowJar"
 }
 
-def releaseMinecraftVersions = ['26.1.2', '26.2']
+def releaseMinecraftVersions = ['26.1.2', '26.2', '26.3']
 def releasePlatforms = ['fabric', 'neoforge', 'paper']
 def releaseArtifactFile = { String platform, String minecraftVersion ->
     def artifactVersion = rootProject.ext.minecraftMavenVersion(minecraftVersion)
