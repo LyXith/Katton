@@ -243,7 +243,7 @@ private fun applyBlockModifications(block: Block, config: BlockModificationConfi
     }
 
     config.isSuffocating?.let { isSuffocating ->
-        properties.isSuffocating(stateArgumentPredicate(isSuffocating))
+        properties.isSuffocating(statePredicate(isSuffocating))
     }
 
     config.isViewBlocking?.let { isViewBlocking ->
