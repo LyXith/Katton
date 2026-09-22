@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.rendertype.RenderType
 import net.minecraft.client.renderer.rendertype.RenderTypes
 import net.minecraft.client.Minecraft
 import com.mojang.blaze3d.systems.RenderSystem
+import java.util.Optional
 import java.util.OptionalInt
 import java.util.OptionalDouble
 
@@ -53,13 +54,13 @@ internal fun drawLine3DCompat(
         staged.upload()
         val executeInfo = staged.getExecuteInfo(draw) ?: return false
         val framebuffer = Minecraft.getInstance().gameRenderer.mainRenderTarget()
-        val colorView = framebuffer.colorTextureView
-        val depthView = framebuffer.depthTextureView
+        val colorView = framebuffer.colorTextureView ?: return false
+        val depthView = framebuffer.depthTextureView ?: return false
 
         RenderSystem.getDevice().createCommandEncoder().createRenderPass(
             { "Katton line renderer pass" },   // 调试名称 Supplier<String>
             colorView,                          // GpuTextureView
-            OptionalInt.empty(),                // clearColor (Optional)
+            Optional.empty<Vector4fc>(),                // clearColor (Optional)
             depthView,                          // GpuTextureView
             OptionalDouble.empty()              // clearDepth (OptionalDouble)
         ).use { renderPass ->
