@@ -50,6 +50,7 @@ jobs:
         with:
           name: katton-build-artifacts
           path: |
+            build/*.jar
             **/build/libs/*.jar
             **/build/reports/**
             **/build/test-results/**
