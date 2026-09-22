@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import java.util.Optional
 import java.util.OptionalInt
 import java.util.OptionalDouble
+import org.joml.Vector4fc
 
 import net.minecraft.world.phys.Vec3
 
