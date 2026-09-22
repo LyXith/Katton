@@ -3,6 +3,10 @@ package top.katton.compat
 import net.minecraft.client.renderer.StagedVertexBuffer
 import net.minecraft.client.renderer.rendertype.RenderType
 import net.minecraft.client.renderer.rendertype.RenderTypes
+import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.Minecraft
+import java.util.OptionalDouble
+import java.util.OptionalInt
 import net.minecraft.world.phys.Vec3
 
 internal fun drawLine3DCompat(
@@ -47,7 +51,20 @@ internal fun drawLine3DCompat(
 
         staged.upload()
         val executeInfo = staged.getExecuteInfo(draw) ?: return false
-        renderType.prepare().drawFromBuffer(executeInfo)
+        val mainTarget = Minecraft.getInstance().mainRenderTarget
+        val renderPass = RenderSystem.getDevice()
+            .createCommandEncoder()
+            .createRenderPass(
+            { "Katton line renderer" },
+            mainTarget.colorTextureView,
+            OptionalInt.empty(),
+            mainTarget.depthTextureView,
+            OptionalDouble.empty())
+        try {
+            renderType.prepare().drawFromBuffer(executeInfo, renderPass)
+        } finally {
+            renderPass.close()
+        }
         staged.endDraw()
         staged.endFrame()
         return true
