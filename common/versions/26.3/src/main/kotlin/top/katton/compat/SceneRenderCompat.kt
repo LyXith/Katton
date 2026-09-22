@@ -93,8 +93,8 @@ internal object SceneRenderCompat {
             draws.forEach { (type, draw) ->
                 staged.getExecuteInfo(draw)?.let {
                     val framebuffer = Minecraft.getInstance().gameRenderer.mainRenderTarget()
-                    val colorView = framebuffer.colorTextureView ?: return false
-                    val depthView = framebuffer.depthTextureView ?: return false
+                    val colorView = framebuffer.colorTextureView ?: return@let
+                    val depthView = framebuffer.depthTextureView ?: return@let
                     RenderSystem.getDevice().createCommandEncoder().createRenderPass(
                         { "Katton line renderer pass" },
                         colorView,                          // GpuTextureView
