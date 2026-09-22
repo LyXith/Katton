@@ -58,7 +58,7 @@ internal fun drawLine3DCompat(
         RenderSystem.getDevice().createCommandEncoder().createRenderPass(
             { "Katton line renderer pass" },   // 调试名称 Supplier<String>
             colorView,                          // GpuTextureView
-            OptionalInt.empty(),                // clearColor (OptionalInt)
+            Optional.empty(),                // clearColor (Optional)
             depthView,                          // GpuTextureView
             OptionalDouble.empty()              // clearDepth (OptionalDouble)
         ).use { renderPass ->
