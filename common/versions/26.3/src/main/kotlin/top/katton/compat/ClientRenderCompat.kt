@@ -3,6 +3,10 @@ package top.katton.compat
 import net.minecraft.client.renderer.StagedVertexBuffer
 import net.minecraft.client.renderer.rendertype.RenderType
 import net.minecraft.client.renderer.rendertype.RenderTypes
+import net.minecraft.client.Minecraft
+import com.mojang.blaze3d.systems.RenderSystem
+import java.util.OptionalInt
+import java.util.OptionalDouble
 
 import net.minecraft.world.phys.Vec3
 
