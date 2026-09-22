@@ -247,7 +247,7 @@ private fun applyBlockModifications(block: Block, config: BlockModificationConfi
     }
 
     config.isViewBlocking?.let { isViewBlocking ->
-        properties.isViewBlocking { _, _, _ -> isViewBlocking }
+        properties.isViewBlocking { _, _, _, _ -> isViewBlocking }
     }
 
     config.soundType?.let { soundType ->
