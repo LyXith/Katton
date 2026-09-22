@@ -15,7 +15,7 @@ public class EnderManMixin {
     
     @Inject(method = "isBeingStaredBy", at = @At("HEAD"), cancellable = true)
     private void isBeingStaredBy(Player player, CallbackInfoReturnable<Boolean> cir) {
-        EnderMan self = (EnderMan)(Object)this;
+        Enderman self = (Enderman)(Object)this;
         if(!LivingEntity.PLAYER_NOT_WEARING_DISGUISE_ITEM.test(player)) {
             cir.setReturnValue(false);
             return;
