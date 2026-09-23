@@ -30,6 +30,7 @@
     "LevelRendererMixin",
     "LoadingOverlayMixin",
     "RegistryDataCollectorMixin",
+    "ShaderManagerConfigsMixin",
     "ShaderManagerMixin"
   ],
   "injectors": {
