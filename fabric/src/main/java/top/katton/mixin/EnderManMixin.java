@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import top.katton.api.event.EndermanAngerArg;
 import top.katton.api.event.ServerEntityEvent;
 
-@Mixin(EnderMan.class)
+@Mixin(Enderman.class)
 public class EnderManMixin {
     
     @Inject(method = "isBeingStaredBy", at = @At("HEAD"), cancellable = true)
