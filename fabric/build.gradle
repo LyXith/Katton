@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath "net.fabricmc:fabric-loom:${loom_version}"
+        annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     }
 }
 
