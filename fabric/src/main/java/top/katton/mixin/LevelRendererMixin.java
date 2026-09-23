@@ -25,26 +25,42 @@ import top.katton.client.ClientItemRenderMarkerManager;
 public class LevelRendererMixin {
     @Unique
     private float katton$tickDelta;
-    /*? if mc_26_2 {*/
+
     @Inject(method = "render", at = @At("HEAD"))
-    /*?} else {*/
-    /*@Inject(method = "renderLevel", at = @At("HEAD"))*/
-    /*?}*/
-    private void katton$captureTickDelta(GraphicsResourceAllocator resourceAllocator, DeltaTracker deltaTracker, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, /*? if mc_26_1_2 {*//*ChunkSectionsToRender chunkSectionsToRender, *//*?}*/CallbackInfo ci) {
-        this.katton$tickDelta = deltaTracker.getGameTimeDeltaPartialTick(false);
+    private void katton$captureTickDelta(
+            GraphicsResourceAllocator resourceAllocator,
+            boolean renderOutline,
+            CameraRenderState cameraState,
+            GpuBufferSlice terrainFog,
+            Vector4f fogColor,
+            boolean shouldRenderSky,
+            boolean consistentDepthRequired,
+            CallbackInfo ci
+    ) {
+        this.katton$tickDelta = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(false);
     }
 
-    /*? if mc_26_2 {*/
-    @Inject(method = "render", at = @At("HEAD"))
-    /*?} else {*/
-    /*@Inject(method = "renderLevel", at = @At("TAIL"))*/
-    /*?}*/
-    private void katton$renderWorld(GraphicsResourceAllocator resourceAllocator, DeltaTracker deltaTracker, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, /*? if mc_26_1_2 {*//*ChunkSectionsToRender chunkSectionsToRender, *//*?}*/CallbackInfo ci) {
+    @Inject(method = "render", at = @At("TAIL"))
+    private void katton$renderWorld(
+            GraphicsResourceAllocator resourceAllocator,
+            boolean renderOutline,
+            CameraRenderState cameraState,
+            GpuBufferSlice terrainFog,
+            Vector4f fogColor,
+            boolean shouldRenderSky,
+            boolean consistentDepthRequired,
+            CallbackInfo ci
+    ) {
         KattonClientRenderApiKt.dispatchWorldRender(cameraState, this.katton$tickDelta);
     }
 
     @Inject(method = "submitEntities", at = @At("TAIL"))
-    private void katton$renderItemMarkers(PoseStack poseStack, LevelRenderState levelRenderState, SubmitNodeCollector submitNodeCollector, CallbackInfo ci) {
+    private void katton$renderItemMarkers(
+            PoseStack poseStack,
+            LevelRenderState levelRenderState,
+            SubmitNodeCollector submitNodeCollector,
+            CallbackInfo ci
+    ) {
         ClientItemRenderMarkerManager.render(levelRenderState.cameraRenderState, poseStack, submitNodeCollector, this.katton$tickDelta);
     }
 }
