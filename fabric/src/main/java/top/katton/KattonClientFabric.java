@@ -27,7 +27,7 @@ public class KattonClientFabric implements ClientModInitializer {
 	private static final KeyMapping OPEN_PACK_SCREEN = KeyMappingHelper.registerKeyMapping(
 			new KeyMapping(
 					"key.katton.open_pack_screen",
-					InputConstants.Type.KEYSYM,
+					InputConstants.Type.KEYBOARD,
 					GLFW.GLFW_KEY_K,
 					KATTON_KEY_CATEGORY
 			)
