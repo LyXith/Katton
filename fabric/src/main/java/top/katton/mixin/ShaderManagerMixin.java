@@ -1,6 +1,7 @@
 package top.katton.mixin;
 
 import com.mojang.renderpearl.api.pipeline.ShaderType;
+import com.mojang.renderpearl.api.device.GpuDevice
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.Projection;
 import net.minecraft.client.renderer.ProjectionMatrixBuffer;
