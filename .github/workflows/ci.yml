@@ -34,7 +34,7 @@ jobs:
 
       - name: Build, test, and verify deployment jars
         run: >
-          ./gradlew :fabric:26.3:compileJava
+          ./gradlew :fabric:26.3:build
 
       
       - name: Upload build artifacts
