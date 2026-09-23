@@ -1,7 +1,6 @@
 package top.katton.mixin;
 
 import com.mojang.renderpearl.api.pipeline.ShaderType;
-import com.mojang.renderpearl.api.device.GpuDevice;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.Projection;
 import net.minecraft.client.renderer.ProjectionMatrixBuffer;
@@ -53,7 +52,7 @@ public abstract class ShaderManagerMixin {
         method = "apply(Lcom/mojang/renderpearl/api/device/GpuDevice;Lnet/minecraft/client/renderer/ShaderManager$PendingResults;)V",
         at = @At("HEAD")
     )
-    private void katton$invalidateRuntimePostChains(GpuDevice device, Object compilations, CallbackInfo ci) {
+    private void katton$invalidateRuntimePostChains(CallbackInfo ci) {
         ClientPostEffectManager.invalidatePostChainCache();
         top.katton.client.scene.ClientSceneManager.resourceReload();
     }
