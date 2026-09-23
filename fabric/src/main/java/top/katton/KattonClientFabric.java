@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 import top.katton.client.ClientItemRenderMarkerManager;
 import top.katton.client.ClientPostEffectManager;
 import top.katton.client.ScriptPackResourceManager;
@@ -28,7 +27,7 @@ public class KattonClientFabric implements ClientModInitializer {
 			new KeyMapping(
 					"key.katton.open_pack_screen",
 					InputConstants.Type.KEYBOARD,
-					GLFW.GLFW_KEY_K,
+					InputConstants.KEY_K,
 					KATTON_KEY_CATEGORY
 			)
 	);
