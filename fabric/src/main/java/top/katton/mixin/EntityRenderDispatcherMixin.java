@@ -47,6 +47,7 @@ public abstract class EntityRenderDispatcherMixin {
     private <E extends Entity> void katton$guardMissingRenderer(E entity,
             net.minecraft.client.renderer.culling.Frustum frustum,
             double x, double y, double z,
+            float partialTicks,
             CallbackInfoReturnable<Boolean> cir) {
         EntityRenderDispatcher self = (EntityRenderDispatcher) (Object) this;
         if (self.getRenderer(entity) == null) {
