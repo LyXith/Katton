@@ -34,14 +34,6 @@ public abstract class ShaderManagerMixin {
     @Final
     private ProjectionMatrixBuffer postChainProjectionMatrixBuffer;
 
-    @Inject(method = "getShader", at = @At("HEAD"), cancellable = true)
-    private void katton$getRuntimeShader(Identifier id, ShaderType type, CallbackInfoReturnable<String> cir) {
-        String source = ClientPostEffectManager.getRuntimeShaderSource(id, type);
-        if (source != null) {
-            cir.setReturnValue(source);
-        }
-    }
-
     @Inject(method = "getPostChain", at = @At("HEAD"), cancellable = true)
     private void katton$getRuntimePostChain(Identifier id, Set<Identifier> allowedTargets, CallbackInfoReturnable<PostChain> cir) {
         PostChain postChain = ClientPostEffectManager.getOrCreatePostChain(
