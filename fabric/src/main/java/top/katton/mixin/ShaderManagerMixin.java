@@ -49,10 +49,10 @@ public abstract class ShaderManagerMixin {
     }
 
     @Inject(
-            method = "apply(Lnet/minecraft/client/renderer/ShaderManager$Configs;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V",
-            at = @At("HEAD")
+        method = "apply(Lcom/mojang/renderpearl/api/device/GpuDevice;Lnet/minecraft/client/renderer/ShaderManager$PendingResults;)V",
+        at = @At("HEAD")
     )
-    private void katton$invalidateRuntimePostChains(ShaderManager.Configs configs, ResourceManager manager, ProfilerFiller profiler, CallbackInfo ci) {
+    private void katton$invalidateRuntimePostChains(GpuDevice device, Object compilations, CallbackInfo ci) {
         ClientPostEffectManager.invalidatePostChainCache();
         top.katton.client.scene.ClientSceneManager.resourceReload();
     }
